@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "users": {
+      "title": "Users",
+      "description": "User profiles, subscription plans, and usage limits tracking",
+      "properties": {
+        "uid": { "type": "string", "description": "User ID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "description": "User avatar URL" },
+        "plan": { "type": "string", "description": "Subscription plan: free, starter, pro, or unlimited" },
+        "bonusGenerations": { "type": "number", "description": "Remaining initial welcome bonus generations" },
+        "dailyGenerationsCount": { "type": "number", "description": "Generations used today" },
+        "lastGenerationDate": { "type": "string", "description": "Date string of last generation YYYY-MM-DD" },
+        "monthlyGenerationsCount": { "type": "number", "description": "Generations used this month" },
+        "lastGenerationMonth": { "type": "string", "description": "Month string YYYY-MM" },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" },
+        "paddleCustomerId": { "type": "string", "description": "Paddle customer identifier" },
+        "paddleSubscriptionId": { "type": "string", "description": "Paddle subscription identifier" },
+        "subscriptionStatus": { "type": "string", "description": "Paddle subscription status: active, canceled, etc." },
+        "updatedAt": { "type": "string", "description": "Last update timestamp" }
+      },
+      "required": ["uid", "email", "plan"]
+    },
+    "savedItems": {
+      "title": "Saved Items",
+      "description": "Subcollection for cloud saved library items",
+      "properties": {
+        "id": { "type": "string", "description": "Item ID" },
+        "mode": { "type": "string", "description": "Content type mode: social, product, or reply" },
+        "title": { "type": "string", "description": "Item title" },
+        "content": { "type": "string", "description": "Item content text or JSON string" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" },
+        "businessName": { "type": "string", "description": "Business profile name" }
+      },
+      "required": ["id", "mode", "title", "content"]
+    },
+    "paddleEvents": {
+      "title": "Paddle Webhook Events",
+      "description": "Log of received and processed Paddle webhook events for idempotency and audit",
+      "properties": {
+        "eventId": { "type": "string", "description": "Paddle event ID" },
+        "eventType": { "type": "string", "description": "Paddle event type name" },
+        "occurredAt": { "type": "string", "description": "Timestamp when event occurred in Paddle" },
+        "processedAt": { "type": "string", "description": "Timestamp when event was processed by server" },
+        "userId": { "type": "string", "description": "Associated Firebase user ID" },
+        "plan": { "type": "string", "description": "Plan assigned or modified" },
+        "status": { "type": "string", "description": "Status of processing" }
+      },
+      "required": ["eventId", "eventType", "processedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profile with plan tier and generation usage counts"
+    },
+    "/users/{userId}/savedItems/{itemId}": {
+      "schema": "savedItems",
+      "description": "Cloud saved content items for paying users"
+    },
+    "/paddle_events/{eventId}": {
+      "schema": "paddleEvents",
+      "description": "Idempotent log of processed Paddle webhook events"
+    }
+  }
+}

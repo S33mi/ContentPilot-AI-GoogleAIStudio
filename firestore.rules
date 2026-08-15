@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User profile document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Saved items subcollection inside user profile
+      match /savedItems/{itemId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Paddle Webhook processed events (Idempotency and audit logs)
+    match /paddle_events/{eventId} {
+      allow read, write: if false; // Only accessible via server-side Admin SDK
+    }
+  }
+}

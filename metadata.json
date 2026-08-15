@@ -1,0 +1,8 @@
+{
+  "name": "v2 ContentPilot AI proper buttons",
+  "description": "AI-powered content generator for local small businesses and freelancers to create social media posts, product descriptions, and customer replies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
